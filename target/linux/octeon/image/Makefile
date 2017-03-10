@@ -61,7 +61,7 @@ endef
 TARGET_DEVICES += erlite
 
 define Device/neufbox5
-  CMDLINE := -mtdparts=phys_mapped_flash:384k(uboot),128k(uboot-nvram),15204352(rootfs),1024k(nvram) root=/dev/mtdblock2 rootfstype=squashfs rootwait
+  CMDLINE := -mtdparts=phys_mapped_flash:384k(uboot),128k(uboot-nvram),3145728(kernel),12058624(rootfs),1024k(nvram) root=/dev/mtdblock3 rootfstype=squashfs rootwait
   DEVICE_TITLE := SFR Neufbox 5
   KERNEL += | neufbox5-compress-kernel
 endef
