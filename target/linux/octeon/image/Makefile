@@ -33,6 +33,13 @@ define Build/strip-kernel
 	$(TARGET_CROSS)strip -R .notes $@ -o $@.stripped && mv $@.stripped $@
 endef
 
+define Build/neufbox5-compress-kernel
+	@# Compress the kernel
+	lzma e $(KDIR)/$(KERNEL_IMAGE) $(KDIR)/$(KERNEL_IMAGE).lzma
+	@# Append a header to the kernel image to make the U-Boot "unlzma" command work
+	mkfirmware-nb5 $(KDIR)/$(KERNEL_IMAGE).lzma $(KDIR)/$(KERNEL_IMAGE)
+endef
+
 define Device/generic
   FILESYSTEMS := ext4
   DEVICE_TITLE := Generic
@@ -56,6 +63,7 @@ TARGET_DEVICES += erlite
 define Device/neufbox5
   CMDLINE := -mtdparts=phys_mapped_flash:384k(uboot),128k(uboot-nvram),15204352(rootfs),1024k(nvram) root=/dev/mtdblock2 rootfstype=squashfs rootwait
   DEVICE_TITLE := SFR Neufbox 5
+  KERNEL += | neufbox5-compress-kernel
 endef
 TARGET_DEVICES += neufbox5
 

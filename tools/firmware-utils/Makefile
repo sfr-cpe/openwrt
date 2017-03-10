@@ -76,6 +76,7 @@ define Host/Compile
 	$(call cc,edimax_fw_header, -Wall)
 	$(call cc,mkmerakifw sha1, -Wall)
 	$(call cc,jcgimage, -lz -Wall)
+	$(call cc,mkfirmware-nb5, -Wall -lz -D_GNU_SOURCE)
 endef
 
 define Host/Install
