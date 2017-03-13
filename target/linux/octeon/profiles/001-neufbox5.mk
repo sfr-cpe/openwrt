@@ -7,6 +7,10 @@
 
 define Profile/neufbox5
   NAME:=SFR Neufbox 5
+  PACKAGES:= \
+    kmod-fs-exfat \
+    kmod-fs-vfat \
+    kmod-fs-ntfs
 endef
 
 define Profile/neufbox5/Description
