@@ -10,7 +10,8 @@ define Profile/neufbox5
   PACKAGES:= \
     kmod-fs-exfat \
     kmod-fs-vfat \
-    kmod-fs-ntfs
+    kmod-fs-ntfs \
+    kmod-ath9k
 endef
 
 define Profile/neufbox5/Description
