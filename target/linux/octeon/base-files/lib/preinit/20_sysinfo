@@ -17,6 +17,10 @@ do_sysinfo_octeon() {
 		name="erpro"
 		;;
 
+	"CUST_NB5"*)
+		name="neufbox5"
+		;;
+
 	*)
 		name="generic"
 		;;

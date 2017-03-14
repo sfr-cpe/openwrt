@@ -12,6 +12,10 @@ erlite)
 	ucidef_set_interfaces_lan_wan "eth0" "eth1"
 	;;
 
+neufbox5)
+	ucidef_set_interfaces_lan_wan "eth1" "eth2"
+	;;
+
 *)
 	ucidef_set_interfaces_lan_wan "eth0" "eth1"
 	;;
