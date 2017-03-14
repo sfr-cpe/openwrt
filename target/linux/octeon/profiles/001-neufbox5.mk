@@ -11,7 +11,8 @@ define Profile/neufbox5
     kmod-fs-exfat \
     kmod-fs-vfat \
     kmod-fs-ntfs \
-    kmod-ath9k
+    kmod-ath9k \
+    uboot-envtools
 endef
 
 define Profile/neufbox5/Description
