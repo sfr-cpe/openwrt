@@ -1,0 +1,7 @@
+# Put your custom commands here that should be executed once
+# the system init finished. By default this file does nothing.
+
+# Reset boot counter (stored in the U-Boot NVRAM partition) to avoid U-Boot trying to start the rescue image when the counter is greater than 3
+fw_setenv bootcount 0
+
+exit 0
