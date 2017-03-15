@@ -39,21 +39,40 @@ platform_do_flash() {
 	local kernel=$3
 	local rootfs=$4
 
-	mkdir -p /boot
-	mount -t vfat /dev/$kernel /boot
+	case "$board" in
+	er | \
+	erlite)
+		mkdir -p /boot
+		mount -t vfat /dev/$kernel /boot
 
-	[ -f /boot/vmlinux.64 -a ! -L /boot/vmlinux.64 ] && {
-		mv /boot/vmlinux.64 /boot/vmlinux.64.previous
-		mv /boot/vmlinux.64.md5 /boot/vmlinux.64.md5.previous
-	}
-
-	echo "flashing kernel to /dev/$kernel"
-	tar xf $tar_file sysupgrade-$board/kernel -O > /boot/vmlinux.64
-	md5sum /boot/vmlinux.64 | cut -f1 -d " " > /boot/vmlinux.64.md5
-	echo "flashing rootfs to ${rootfs}"
-	tar xf $tar_file sysupgrade-$board/root -O | dd of="${rootfs}" bs=4096
-	sync
-	umount /boot
+		[ -f /boot/vmlinux.64 -a ! -L /boot/vmlinux.64 ] && {
+			mv /boot/vmlinux.64 /boot/vmlinux.64.previous
+			mv /boot/vmlinux.64.md5 /boot/vmlinux.64.md5.previous
+		}
+		
+		echo "flashing kernel to /dev/$kernel"
+		tar xf $tar_file sysupgrade-$board/kernel -O > /boot/vmlinux.64
+		md5sum /boot/vmlinux.64 | cut -f1 -d " " > /boot/vmlinux.64.md5
+		echo "flashing rootfs to ${rootfs}"
+		tar xf $tar_file sysupgrade-$board/root -O | dd of="${rootfs}" bs=4096
+		sync
+		umount /boot
+		;;
+		
+	neufbox5)
+		echo "flashing kernel to /dev/$kernel"
+		tar xf $tar_file sysupgrade-$board/kernel -O > /tmp/kernel.tmp
+		mtd write /tmp/kernel.tmp /dev/$kernel
+		# Free some RAM
+		rm /tmp/kernel.tmp
+		
+		echo "flashing rootfs to ${rootfs}"
+		tar xf $tar_file sysupgrade-$board/root -O > /tmp/root.tmp
+		mtd write /tmp/root.tmp ${rootfs}
+		# Free some more RAM
+		rm /tmp/root.tmp
+		;;
+	esac
 }
 
 platform_do_upgrade() {
@@ -70,6 +89,10 @@ platform_do_upgrade() {
 	er)
 		kernel=mmcblk0p1
 		;;
+	neufbox5)
+		kernel=mtd2
+		rootfs="/dev/mtd3"
+		;;
 	*)
 		return 1
 	esac
@@ -85,7 +108,8 @@ platform_check_image() {
 
 	case "$board" in
 	erlite | \
-	er)
+	er | \
+	neufbox5)
 		local tar_file="$1"
 		local kernel_length=`(tar xf $tar_file sysupgrade-$board/kernel -O | wc -c) 2> /dev/null`
 		local rootfs_length=`(tar xf $tar_file sysupgrade-$board/root -O | wc -c) 2> /dev/null`
