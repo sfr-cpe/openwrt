@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# Copyright (C) 2017 SFR
+#
+
+. /lib/functions/uci-defaults.sh
+
+board_config_update
+
+case "$(cat /tmp/sysinfo/board_name)" in
+neufbox5)
+	ucidef_set_led_default "power" "power" "power-green" "1"
+	;;
+esac
+
+board_config_flush
+
+exit 0

@@ -1,0 +1,23 @@
+--- a/arch/mips/boot/dts/cavium-octeon/octeon_3xxx.dts
++++ b/arch/mips/boot/dts/cavium-octeon/octeon_3xxx.dts
+@@ -599,4 +599,20 @@
+ 			gpios = <&gpio 10 1>; /* Active low */
+ 		};
+ 	};
++	
++	neufbox5-power-leds {
++		compatible = "gpio-leds";
++		power-red {
++			label = "power-red";
++			gpios = <&gpio 0 1>; /* Active low */
++		};
++		power-green {
++			label = "power-green";
++			gpios = <&gpio 1 1>; /* Active low */
++		};
++		power-blue {
++			label = "power-blue";
++			gpios = <&gpio 2 1>; /* Active low */
++		};
++	};
+  };
