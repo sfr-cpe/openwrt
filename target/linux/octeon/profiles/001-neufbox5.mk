@@ -13,6 +13,8 @@ define Profile/neufbox5
     kmod-fs-ntfs \
     kmod-ath9k \
     kmod-leds-gpio \
+    kmod-spi-gpio \
+    kmod-gpio-74x164 \
     uboot-envtools
 endef
 

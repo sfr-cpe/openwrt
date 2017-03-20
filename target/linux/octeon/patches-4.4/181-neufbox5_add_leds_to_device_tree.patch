@@ -1,12 +1,40 @@
 --- a/arch/mips/boot/dts/cavium-octeon/octeon_3xxx.dts
 +++ b/arch/mips/boot/dts/cavium-octeon/octeon_3xxx.dts
-@@ -599,4 +599,20 @@
+@@ -568,6 +568,26 @@
+ 				interrupts = <0 56>;
+ 			};
+ 		};
++		
++		/* It seems that this node can't be out of soc0 or it won't be parsed */
++		neufbox5-spi-gpio {
++			compatible = "spi-gpio";
++			status = "okay";
++			gpio-sck = <&gpio 4 0>;
++			gpio-mosi = <&gpio 3 0>;
++			num-chipselects = <0>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			neufbox5_status_leds_gpio: neufbox5-shift-register-gpio@0 {
++				compatible = "fairchild,74hc595";
++				gpio-controller;
++				#gpio-cells = <2>;
++				reg = <0>;
++				registers-number = <1>;
++				spi-max-frequency = <100000>;
++			};
++		};
+ 	};
+ 
+ 	aliases {
+@@ -599,4 +619,46 @@
  			gpios = <&gpio 10 1>; /* Active low */
  		};
  	};
 +	
-+	neufbox5-power-leds {
++	neufbox5-leds {
 +		compatible = "gpio-leds";
++		
 +		power-red {
 +			label = "power-red";
 +			gpios = <&gpio 0 1>; /* Active low */
@@ -18,6 +46,31 @@
 +		power-blue {
 +			label = "power-blue";
 +			gpios = <&gpio 2 1>; /* Active low */
++		};
++		
++		internet {
++			label = "internet";
++			gpios = <&neufbox5_status_leds_gpio 0 1>; /* Active low */
++		};
++		traffic {
++			label = "traffic";
++			gpios = <&neufbox5_status_leds_gpio 1 1>; /* Active low */
++		};
++		phone {
++			label = "phone";
++			gpios = <&neufbox5_status_leds_gpio 2 1>; /* Active low */
++		};
++		tv {
++			label = "tv";
++			gpios = <&neufbox5_status_leds_gpio 3 1>; /* Active low */
++		};
++		wifi {
++			label = "wifi";
++			gpios = <&neufbox5_status_leds_gpio 4 1>; /* Active low */
++		};
++		alarm {
++			label = "alarm";
++			gpios = <&neufbox5_status_leds_gpio 5 1>; /* Active low */
 +		};
 +	};
   };
