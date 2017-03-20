@@ -10,6 +10,9 @@ board_config_update
 case "$(cat /tmp/sysinfo/board_name)" in
 neufbox5)
 	ucidef_set_led_default "power" "power" "power-green" "1"
+	ucidef_set_led_netdev "act" "act" "traffic" "br-lan"
+	ucidef_set_led_netdev "wan" "wan" "internet" "eth2" "link"
+	ucidef_set_led_wlan "wifi" "wifi" "wifi" "phy0radio"
 	;;
 esac
 
