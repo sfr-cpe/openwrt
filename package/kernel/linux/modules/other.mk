@@ -232,6 +232,22 @@ endef
 
 $(eval $(call KernelPackage,gpio-nxp-74hc164))
 
+
+define KernelPackage/gpio-74x164
+  SUBMENU:=$(OTHER_MENU)
+  TITLE:=74x164 serial-in/parallel-out 8-bits shift register
+  KCONFIG:= CONFIG_GPIO_74X164
+  FILES:=$(LINUX_DIR)/drivers/gpio/gpio-74x164.ko
+  AUTOLOAD:=$(call AutoProbe,gpio-74x164)
+endef
+
+define KernelPackage/gpio-74x164/description
+ Kernel module for 74x164 shift register
+endef
+
+$(eval $(call KernelPackage,gpio-74x164))
+
+
 define KernelPackage/gpio-pca953x
   SUBMENU:=$(OTHER_MENU)
   DEPENDS:=@GPIO_SUPPORT +kmod-i2c-core
